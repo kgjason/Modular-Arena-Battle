@@ -5,9 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDirection, IDeathHandler, IMovementBorder
 {
     public float borderValue = 8.5f;
+    private IAttacker attacker;
+    private void Awake()
+    {
+        attacker = GetComponent<IAttacker>();    
+    }
     void Update()
     {
         SetBorder();
+        FireBullet();
     }
     public Vector2 GetDirection()
     {
@@ -27,5 +33,12 @@ public class Player : MonoBehaviour, IDirection, IDeathHandler, IMovementBorder
         pos.y = Mathf.Clamp(pos.y, -borderValue, borderValue);
 
         transform.position = pos;
+    }
+    public void FireBullet()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            attacker.Attack();
+        }
     }
 }
